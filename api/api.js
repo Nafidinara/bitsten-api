@@ -14,6 +14,7 @@ const cors = require('cors');
 const config = require('../config/');
 const dbService = require('./services/db.service');
 const auth = require('./policies/auth.policy');
+require('dotenv').config();
 
 // environment: development, staging, testing, production
 const environment = process.env.NODE_ENV;
@@ -57,5 +58,6 @@ server.listen(config.port, () => {
     console.error(`NODE_ENV is set to ${environment}, but only production and development are valid.`);
     process.exit(1);
   }
+  console.log(`Server is running on port ${config.port}.`);
   return DB;
 });

@@ -5,7 +5,6 @@ const development = {
   host: 'localhost',
   dialect: 'mysql',
 };
-
 const testing = {
   database: 'databasename',
   username: 'username',

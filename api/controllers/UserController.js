@@ -79,7 +79,6 @@ const UserController = () => {
     }
   };
 
-
   return {
     register,
     login,
