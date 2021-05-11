@@ -1,5 +1,6 @@
 const privateRoutes = require('./routes/privateRoutes');
 const publicRoutes = require('./routes/publicRoutes');
+require('dotenv').config();
 
 const config = {
   migrate: false,
