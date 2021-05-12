@@ -19,4 +19,4 @@ const MarketController = () => {
   };
 };
 
-module.exports = UserController;
+module.exports = MarketController;
