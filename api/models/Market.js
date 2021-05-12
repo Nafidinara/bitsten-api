@@ -35,6 +35,6 @@ const Market = db.define('Market', {
     status:{
         type: Sequelize.STRING
     },
-}, {tableName,timestamp:false});
+}, {tableName,timestamps:false});
 
 module.exports = Market;
