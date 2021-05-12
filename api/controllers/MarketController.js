@@ -1,4 +1,4 @@
-const Market = require('../models/User');
+const Market = require('../models/Market');
 const authService = require('../services/auth.service');
 const bcryptService = require('../services/bcrypt.service');
 
