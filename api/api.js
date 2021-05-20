@@ -62,6 +62,6 @@ server.listen(config.port, () => {
     console.error(`NODE_ENV is set to ${environment}, but only production and development are valid.`);
     process.exit(1);
   }
-  console.log(`Server is running on port ${config.port}.`);
+  console.log(`Server bitsten is running on port ${config.port}.`);
   return DB;
 });
