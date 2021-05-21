@@ -26,7 +26,8 @@ const MarketController = () => {
 
        if (params.order || params.sort){
 
-           if (params.order && params.order !== 'change'){
+           if (params.order && params.order !== 'loser' && params.order !== 'gainer'){
+               console.log('kalo loser gainer ngga masuk sini')
                order = params.order;
            }
 
@@ -39,11 +40,11 @@ const MarketController = () => {
 
       const markets = await Market.findAll(query);
 
-       if (params.order === 'change'){
-           if(sort === 'ASC'){
+       if (params.order === 'loser' || params.order === 'gainer'){
+           if(params.order === 'gainer'){
                markets.sort(compare).reverse();
            }
-           if(sort === 'DESC'){
+           if(params.order === 'loser'){
                markets.sort(compare)
            }
        }
@@ -55,7 +56,10 @@ const MarketController = () => {
       });
     } catch (err) {
       console.log(err);
-      return res.status(500).json({ msg: 'Internal server error' });
+      return res.status(500).json({
+          msg: 'Internal server error',
+          origin: err
+      });
     }
   };
 
