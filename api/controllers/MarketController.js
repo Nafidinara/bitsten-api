@@ -1,20 +1,47 @@
 const Market = require('../models/Market');
-const authService = require('../services/auth.service');
-const bcryptService = require('../services/bcrypt.service');
 
 const MarketController = () => {
+    //function for order by change
+    const compare = (a,b) => {
+        if ( a.change < b.change ){
+            return -1;
+        }
+        if ( a.change > b.change ){
+            return 1;
+        }
+        return 0;
+    }
   const getAll = async (req, res) => {
     const query = {};
+    let limit = 5;
     try {
       let params = req.query;
       
       if (params.limit){
-        Object.assign(query, {limit: parseInt(params.limit)})
+        limit = parseInt(params.limit)
       }
+      Object.assign(query, {limit: limit})
 
-      // Object.assign(query, {attributes})
-      
+       if (params.order || params.sort){
+           let sort = 'ASC';
+           let order = 'id';
+
+           if (params.order && params.order !== 'change'){
+               order = params.order;
+           }
+
+           if (params.sort){
+               sort = params.sort;
+           }
+
+           Object.assign(query, {order: [[order,sort]]})
+       }
+
       const markets = await Market.findAll(query);
+
+       if (params.order === 'change'){
+           markets.sort(compare).reverse();
+       }
 
       return res.status(200).json({
         status : true,
