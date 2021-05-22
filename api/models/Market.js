@@ -1,4 +1,5 @@
 const Sequelize = require('sequelize');
+const { Op } = require("sequelize");
 const db = require('../../config/database');
 const User = require('./User');
 
@@ -8,11 +9,32 @@ const hooks = {
     afterFind: function(result) {
         if(result.constructor === Array) {
             for (let i = 0; i < result.length; i++) {
+                if (result[i].status > 3){
+                    result[i].status = 'INACTIVE';
+                }
+                if (result[i].status < 4){
+                    result[i].status = 'ACTIVE';
+                }
                 result[i].change = ((result[i].bid - result[i].open) / (result[i].open * 0.01)).toFixed(2);
             }
         } else {
+            if (result.status > 3){
+                result.status = 'INACTIVE';
+            }
+            if (result.status < 4){
+                result.status = 'ACTIVE';
+            }
             result.change = ((result.bid - result.open) / (result.open * 0.01)).toFixed(2);
         }
+        return result;
+    },
+    beforeFind: function(result) {
+        Object.assign(result,{where: {
+                status: {
+                    [Sequelize.Op.lte]: 4
+                }
+            }});
+        // console.log(`cek isi result : ${JSON.stringify(result)}`);
         return result;
     }
 }
@@ -46,7 +68,7 @@ const Market = db.define('Market', {
         type: Sequelize.DOUBLE
     },
     status:{
-        type: Sequelize.INTEGER
+        type: Sequelize.INTEGER,
     },
     change: Sequelize.VIRTUAL,
 }, {hooks,tableName,timestamps:false});

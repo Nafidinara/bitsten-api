@@ -11,6 +11,7 @@ const MarketController = () => {
         }
         return 0;
     }
+    
   const getAll = async (req, res) => {
     const query = {};
     let limit = 5;
@@ -48,7 +49,7 @@ const MarketController = () => {
                markets.sort(compare)
            }
        }
-
+       
       return res.status(200).json({
         status : true,
         message : 'get all data tickers',
