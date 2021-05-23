@@ -1,7 +1,5 @@
 const Sequelize = require('sequelize');
-const { Op } = require("sequelize");
 const db = require('../../config/database');
-const User = require('./User');
 
 const tableName = 'market';
 

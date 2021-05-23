@@ -58,8 +58,9 @@ const MarketController = () => {
     } catch (err) {
       console.log(err);
       return res.status(500).json({
-          msg: 'Internal server error',
-          origin: err
+          status : false,
+          message: 'Internal server error',
+          error: err
       });
     }
   };

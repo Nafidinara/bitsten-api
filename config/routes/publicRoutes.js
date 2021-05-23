@@ -3,7 +3,8 @@ const publicRoutes = {
   // 'POST /register': 'UserController.register', // alias for POST /user
   // 'POST /login': 'UserController.login',
   // 'POST /validate': 'UserController.validate',
-  'GET /ticker': 'MarketController.getAll',
+  'GET /tickers': 'MarketController.getAll',
+  'GET /assets': 'AssetController.getAll',
 };
 
 module.exports = publicRoutes;
