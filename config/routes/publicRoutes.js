@@ -4,6 +4,7 @@ const publicRoutes = {
   // 'POST /login': 'UserController.login',
   // 'POST /validate': 'UserController.validate',
   'GET /tickers': 'MarketController.getAll',
+  'GET /orderbooks': 'MarketController.orderBook',
   'GET /assets': 'AssetController.getAll',
 };
 

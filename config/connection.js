@@ -1,4 +1,5 @@
 require('dotenv').config();
+
 const development = {
   database: 'bitsten',
   username: 'root',
@@ -6,6 +7,7 @@ const development = {
   host: 'localhost',
   dialect: 'mysql',
 };
+
 const testing = {
   database: 'databasename',
   username: 'username',

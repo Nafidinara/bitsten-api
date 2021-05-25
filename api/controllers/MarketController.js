@@ -1,4 +1,7 @@
 const Market = require('../models/Market');
+const sequelize = require('sequelize');
+const { QueryTypes } = require('sequelize');
+const database = require('../../config/database');
 
 const MarketController = () => {
     //function for order by change
@@ -12,7 +15,7 @@ const MarketController = () => {
         return 0;
     }
     
-  const getAll = async (req, res) => {
+    const getAll = async (req, res) => {
     const query = {};
     let limit = 5;
     let sort = 'ASC';
@@ -65,8 +68,68 @@ const MarketController = () => {
     }
   };
 
+    const orderBook = async (req, res) => {
+        const query = {};
+        const result = [];
+        let params = req.query;
+        let limit = 5;
+        let type = 'both';
+        let pair = params.pair;
+
+        if (!pair){
+            return res.status(500).json({
+                status : false,
+                message: 'Internal server error',
+                error: 'please provide valid pair, you can get from market_id in tickers'
+            });
+        }
+
+        if (params.limit){
+            limit = parseInt(params.limit)
+        }
+
+        if (params.type){
+            type = params.type;
+        }
+
+        try{
+        const buyLimit = await database.query(`SELECT sum((total) - filled) as amount,price FROM ${pair}_buy GROUP BY price ORDER BY price DESC LIMIT ${limit}`, {
+            type: QueryTypes.SELECT,
+            raw:true
+        });
+        const sellLimit = await database.query(`SELECT sum((total) - filled) as amount,price FROM ${pair}_sell GROUP BY price ORDER BY price ASC LIMIT ${limit}`, {
+            type: QueryTypes.SELECT,
+            raw:true
+        });
+
+            if (type === 'both'){
+                result.push({sellLimit: sellLimit},{buyLimit: buyLimit})
+            }
+
+            if (type === 'sell'){
+                result.push({sellLimit: sellLimit})
+            }
+
+            if (type === 'buy'){
+                result.push({buyLimit: buyLimit})
+            }
+
+            return res.status(200).json({
+                status : true,
+                message : 'get all data orderbooks',
+                result
+            });
+        }catch (err) {
+            return res.status(500).json({
+                status : false,
+                message: 'Internal server error',
+                error: err
+            });
+        }
+    }
+
   return {
-    getAll,
+    getAll,orderBook
   };
 };
 
