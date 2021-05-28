@@ -6,6 +6,7 @@ const publicRoutes = {
   'GET /tickers': 'MarketController.getAll',
   'GET /orderbooks': 'MarketController.orderBook',
   'GET /assets': 'AssetController.getAll',
+  'GET /charts': 'ChartController.getAll',
 };
 
 module.exports = publicRoutes;

@@ -1,5 +1,4 @@
 const Market = require('../models/Market');
-const sequelize = require('sequelize');
 const { QueryTypes } = require('sequelize');
 const database = require('../../config/database');
 
@@ -117,6 +116,7 @@ const MarketController = () => {
             return res.status(200).json({
                 status : true,
                 message : 'get all data orderbooks',
+                pair : pair,
                 result
             });
         }catch (err) {
