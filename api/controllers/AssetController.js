@@ -18,7 +18,7 @@ const AssetController = () => {
       return res.status(200).json({
         status : true,
         message : 'get all data assets',
-        assets
+        data:assets
       });
     } catch (err) {
       console.log(err);

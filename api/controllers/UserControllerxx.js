@@ -30,11 +30,11 @@ const UserController = () => {
     if (email && password) {
       try {
         const user = await User
-            .findOne({
-              where: {
-                email,
-              },
-            });
+          .findOne({
+            where: {
+              email,
+            },
+          });
 
         if (!user) {
           return res.status(400).json({ msg: 'Bad Request: User not found' });

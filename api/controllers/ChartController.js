@@ -24,7 +24,7 @@ const ChartController = () => {
         limit = parseInt(params.limit)
       }
 
-      const charts = await database.query(`SELECT * FROM chart_${pair} LIMIT ${limit}`, {
+      const charts = await database.query(`SELECT DATE as d,OPEN as o,CLOSE as c,HIGH as h ,LOW as l,VOLUME as v FROM chart_${pair} order by id desc LIMIT ${limit}`, {
         type: QueryTypes.SELECT,
         raw:true
       });
@@ -33,7 +33,7 @@ const ChartController = () => {
         status : true,
         message : 'get all data charts',
         pair : pair,
-        charts
+        data:charts
       });
 
     } catch (err) {

@@ -13,6 +13,68 @@ const MarketController = () => {
         }
         return 0;
     }
+
+    const getMarket = async (req, res) => {
+        const query = {};
+        const result = [];
+        let params = req.query;
+        let pair2 = params.pair;
+
+        if (!pair2){
+            return res.status(500).json({
+                status : false,
+                message: 'Internal server error',
+                error: 'please provide valid pair, you can get from market_id in tickers'
+            });
+        }
+
+
+        try {
+            const m = await database.query(`SELECT *  FROM market where market_show = "${pair2}" limit 1`, {
+            type: QueryTypes.SELECT,
+            raw:true 
+          });
+          
+          m[0]['change'] = 0 ;
+          m[0]['price_idr'] = 123456 ;
+          m[0]['price_usd'] = 123 ;
+          
+          return res.status(200).json({
+            status : true,
+            message : 'get market detail',
+            data: {
+                'market':m[0]
+            }
+          });
+        } catch (err) {
+          console.log(err);
+          return res.status(500).json({
+              status : false,
+              message: 'Internal server error',
+              error: err
+          });
+        }
+      };
+
+
+
+      const getMain = async (req, res) => {
+      
+          try{
+          return res.status(200).json({
+            status : true,
+            message : 'get all main market',
+            data: ['USDT','IDRT','BST','BNB']
+          });
+        } catch (err) {
+          console.log(err);
+          return res.status(500).json({
+              status : false,
+              message: 'Internal server error',
+              error: err
+          });
+        }
+      };
     
     const getAll = async (req, res) => {
     const query = {};
@@ -25,13 +87,15 @@ const MarketController = () => {
       if (params.limit){
         limit = parseInt(params.limit)
       }
-      Object.assign(query, {limit: limit})
-
+      
+      
        if (params.order || params.sort){
 
            if (params.order && params.order !== 'loser' && params.order !== 'gainer'){
                console.log('kalo loser gainer ngga masuk sini')
                order = params.order;
+              // Object.assign(query, {limit: limit})
+       
            }
 
            if (params.sort){
@@ -41,7 +105,10 @@ const MarketController = () => {
            Object.assign(query, {order: [[order,sort]]})
        }
 
+      
+
       const markets = await Market.findAll(query);
+
 
        if (params.order === 'loser' || params.order === 'gainer'){
            if(params.order === 'gainer'){
@@ -51,11 +118,14 @@ const MarketController = () => {
                markets.sort(compare)
            }
        }
+
+        var d =  markets.slice(0,limit);
        
+      
       return res.status(200).json({
         status : true,
         message : 'get all data tickers',
-        markets
+        data: d
       });
     } catch (err) {
       console.log(err);
@@ -117,7 +187,7 @@ const MarketController = () => {
                 status : true,
                 message : 'get all data orderbooks',
                 pair : pair,
-                result
+                data:result
             });
         }catch (err) {
             return res.status(500).json({
@@ -129,7 +199,7 @@ const MarketController = () => {
     }
 
   return {
-    getAll,orderBook
+    getAll,orderBook,getMarket,getMain
   };
 };
 

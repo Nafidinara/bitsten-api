@@ -16,13 +16,6 @@ const UserController = () => {
     let result = {};
     const allCoins = await AllCoin.findAll();
 
-    //  allCoins.forEach( (value, index) => {
-    //   // console.log(value.code);
-    //   result[value.code] = database.query(`SELECT * FROM balance_btc WHERE userid = ${user.userid} LIMIT 1`, {
-    //     type: QueryTypes.SELECT,
-    //   });
-    // });
-
     await asyncForEach(allCoins, async (value,index) => {
       let cek =  await database.query(`SELECT amount, hold, onorder FROM balance_${value.code} WHERE userid = ${user.userid} LIMIT 1`, {
         type: QueryTypes.SELECT,

@@ -12,14 +12,67 @@ const hooks = {
 const tableName = 'users';
 
 const User = sequelize.define('User', {
+  ip_address: {
+    type: Sequelize.STRING,
+  },
+  real_name: {
+    type: Sequelize.STRING,
+  },
+  salt: {
+    type: Sequelize.STRING,
+  },
+  username: {
+    type: Sequelize.STRING,
+  },
   email: {
     type: Sequelize.STRING,
-    unique: true,
+  },
+  activation_code: {
+    type: Sequelize.STRING,
+  },
+  forgotten_password_code: {
+    type: Sequelize.STRING,
+  },
+  remember_code: {
+    type: Sequelize.STRING,
+  },
+  created_on: {
+    type: Sequelize.STRING,
+  },
+  last_login: {
+    type: Sequelize.STRING,
+  },
+  active: {
+    type: Sequelize.STRING,
+  },
+  first_name: {
+    type: Sequelize.STRING,
+  },
+  active: {
+    type: Sequelize.STRING,
+  },
+  last_name: {
+    type: Sequelize.STRING,
+  },
+  company: {
+    type: Sequelize.STRING,
+  },
+  phone: {
+    type: Sequelize.STRING,
+  },
+  country: {
+    type: Sequelize.STRING,
+  },
+  upline: {
+    type: Sequelize.STRING,
   },
   password: {
     type: Sequelize.STRING,
   },
-}, { hooks, tableName });
+  token: {
+    type: Sequelize.STRING,
+  },
+}, { hooks, tableName,timestamps:false });
 
 // eslint-disable-next-line
 User.prototype.toJSON = function () {
