@@ -46,7 +46,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // secure your private routes with jwt authentication middleware
-app.all('/private/*', (req, res, next) => apikey(req, res, next));
+app.all('/private/*', (req, res, next) => auth(req, res, next));
 
 app.get('/', function (req, res) {
   res.send('Welcome to Bitsten API')

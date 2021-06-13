@@ -12,12 +12,13 @@ const UserController = () => {
 
   const balance = async (req, res) => {
 
-    let user = req.user;
+    let user = req.token;
+    console.log(user);
     let result = {};
     const allCoins = await AllCoin.findAll();
 
     await asyncForEach(allCoins, async (value,index) => {
-      let cek =  await database.query(`SELECT amount, hold, onorder FROM balance_${value.code} WHERE userid = ${user.userid} LIMIT 1`, {
+      let cek =  await database.query(`SELECT amount, hold, onorder FROM balance_${value.code} WHERE userid = ${user.id} LIMIT 1`, {
         type: QueryTypes.SELECT,
         raw:true
       });
