@@ -58,7 +58,7 @@ const UserController = () => {
 
   const validate = (req, res) => {
     const { token } = req.body;
-
+     
     authService().verify(token, (err) => {
       if (err) {
         return res.status(401).json({ isvalid: false, err: 'Invalid Token!' });

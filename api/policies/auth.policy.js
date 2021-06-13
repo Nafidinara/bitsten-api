@@ -1,7 +1,8 @@
 const JWTService = require('../services/auth.service');
+const User = require('./../models/User');
 
 // usually: "Authorization: Bearer [token]" or "token: [token]"
-module.exports = (req, res, next) => {
+module.exports = async (req, res, next) => {
   let tokenToVerify;
 
   if (req.header('Authorization')) {
@@ -25,10 +26,20 @@ module.exports = (req, res, next) => {
   } else {
     return res.status(401).json({ msg: 'No Authorization was found' });
   }
-
-  return JWTService().verify(tokenToVerify, (err, thisToken) => {
-    if (err) return res.status(401).json({ err });
-    req.token = thisToken;
-    return next();
+  
+    const user = await User.findOne({
+    where: {
+      token : tokenToVerify
+    }
   });
+  
+  if (user){
+    return JWTService().verify(tokenToVerify, (err, thisToken) => {
+      if (err) return res.status(401).json({ err });
+      req.token = thisToken;
+      return next();
+    }); 
+  }else{
+    return res.status(401).json({ msg: 'No Authorization was found, Token expired' });
+  }
 };
