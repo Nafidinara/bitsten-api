@@ -33,8 +33,26 @@ const UserController = () => {
     });
   }
 
+  const balanceOne = async (req, res) => {
+
+    let user = req.token;
+    let code = req.params.coin;
+    
+      let result =  await database.query(`SELECT amount, hold, onorder FROM balance_${code} WHERE userid = ${user.id} LIMIT 1`, {
+        type: QueryTypes.SELECT,
+        raw:true
+      });
+      
+    return res.status(200).json({
+      status : true,
+      message : `Your ${code} balance`,
+      result
+    });
+  }
+
   return {
-    balance
+    balance,
+    balanceOne
   };
 };
 
