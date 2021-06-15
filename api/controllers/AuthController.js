@@ -4,7 +4,7 @@ const bcryptService = require('../services/bcrypt.service');
 
 const UserController = () => {
   const register = async (req, res) => {
-    const { body } = req;
+    const { body } = req; 
 
     if (body.password === body.password2) {
       try {
